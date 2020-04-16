@@ -1,0 +1,49 @@
+{
+    "lastSession": {
+        "dialect": "C",
+        "upperCase": "yes",
+        "multiLines": "no",
+        "frame": "yes",
+        "centered": "yes",
+        "copyClipboard": "yes",
+        "alwaysOnTop": "no"
+    },
+    "language": {
+        "Python": {
+            "lineLength": 72,
+            "singleLineSettings": {
+                "delimiterSymbol": "#",
+                "interruptionSymbol": "*"
+            },
+            "multiLineSettings": {
+                "delimiterSymbolBegin": "\"\"\"",
+                "delimiterSymbolEnd": "\"\"\"",
+                "interruptionSymbol": "*"
+            }
+        },
+        "C": {
+            "lineLength": 72,
+            "singleLineSettings": {
+                "delimiterSymbol": "//",
+                "interruptionSymbol": "*"
+            },
+            "multiLineSettings": {
+                "delimiterSymbolBegin": "/*",
+                "delimiterSymbolEnd": "*/",
+                "interruptionSymbol": "*"
+            }
+        },
+        "Matlab": {
+            "lineLength": 76,
+            "singleLineSettings": {
+                "delimiterSymbol": "%",
+                "interruptionSymbol": "*"
+            },
+            "multiLineSettings": {
+                "delimiterSymbolBegin": "%",
+                "delimiterSymbolEnd": "%",
+                "interruptionSymbol": "%"
+            }
+        }
+    }
+}
