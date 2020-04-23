@@ -19,7 +19,9 @@ def new_cfg():
     _ml = []
     _ml = {'delimiterSymbolBegin': '',
             'delimiterSymbolEnd': '',
-            'interruptionSymbol': ''}
+            'interruptionSymbol': '',
+            'frameOnDelimiter': '',
+            'framePositionBegin': ''}
     _l = []
     _l = {'Python': {
             'lineLength': '',
@@ -52,19 +54,28 @@ def new_cfg():
     cfg['language']['Python']['singleLineSettings']['interruptionSymbol'] = '*'
     cfg['language']['Python']['multiLineSettings']['delimiterSymbolBegin'] = '\"\"\"'
     cfg['language']['Python']['multiLineSettings']['delimiterSymbolEnd'] = '\"\"\"'
+    cfg['language']['Python']['multiLineSettings']['needDelimiter'] = 'no'
     cfg['language']['Python']['multiLineSettings']['interruptionSymbol'] = '*'
+    cfg['language']['Python']['multiLineSettings']['frameOnDelimiter'] = 'no'
+    cfg['language']['Python']['multiLineSettings']['frameOffset'] = 4
     cfg['language']['C']['lineLength'] = 72
     cfg['language']['C']['singleLineSettings']['delimiterSymbol'] = '//'
     cfg['language']['C']['singleLineSettings']['interruptionSymbol'] = '*'
     cfg['language']['C']['multiLineSettings']['delimiterSymbolBegin'] = '/*'
     cfg['language']['C']['multiLineSettings']['delimiterSymbolEnd'] = '*/'
+    cfg['language']['C']['multiLineSettings']['needDelimiter'] = 'no'
     cfg['language']['C']['multiLineSettings']['interruptionSymbol'] = '*'
+    cfg['language']['C']['multiLineSettings']['frameOnDelimiter'] = 'yes'
+    cfg['language']['C']['multiLineSettings']['frameOffset'] = 2
     cfg['language']['Matlab']['lineLength'] = 76
     cfg['language']['Matlab']['singleLineSettings']['delimiterSymbol'] = '%'
     cfg['language']['Matlab']['singleLineSettings']['interruptionSymbol'] = '*'
     cfg['language']['Matlab']['multiLineSettings']['delimiterSymbolBegin'] = '%'
     cfg['language']['Matlab']['multiLineSettings']['delimiterSymbolEnd'] = '%'
+    cfg['language']['Matlab']['multiLineSettings']['needDelimiter'] = 'yes'
     cfg['language']['Matlab']['multiLineSettings']['interruptionSymbol'] = '%'
+    cfg['language']['Matlab']['multiLineSettings']['frameOnDelimiter'] = 'yes'
+    cfg['language']['Matlab']['multiLineSettings']['frameOffset'] = 1
     return cfg
 
 
@@ -72,7 +83,6 @@ def new_cfg():
 # built from: https://jsonschema.net/home
 configSchema = {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "http://example.com/example.json",
     "type": "object",
     "title": "The Root Schema",
     "description": "The root schema comprises the entire JSON document.",
@@ -84,20 +94,19 @@ configSchema = {
     ],
     "properties": {
         "lastSession": {
-            "$id": "#/properties/lastSession",
             "type": "object",
             "title": "The Lastsession Schema",
             "description": "An explanation about the purpose of this instance.",
             "default": {},
             "examples": [
                 {
+                    "upperCase": "yes",
                     "alwaysOnTop": "no",
                     "dialect": "Python",
                     "multiLines": "no",
                     "centered": "yes",
-                    "copyClipboard": "no",
-                    "frame": "yes",
-                    "upperCase": "yes"
+                    "copyClipboard": "yes",
+                    "frame": "yes"
                 }
             ],
             "additionalProperties": True,
@@ -112,7 +121,6 @@ configSchema = {
             ],
             "properties": {
                 "dialect": {
-                    "$id": "#/properties/lastSession/properties/dialect",
                     "type": "string",
                     "title": "The Dialect Schema",
                     "description": "An explanation about the purpose of this instance.",
@@ -122,7 +130,6 @@ configSchema = {
                     ]
                 },
                 "upperCase": {
-                    "$id": "#/properties/lastSession/properties/upperCase",
                     "type": "string",
                     "title": "The Uppercase Schema",
                     "description": "An explanation about the purpose of this instance.",
@@ -132,7 +139,6 @@ configSchema = {
                     ]
                 },
                 "multiLines": {
-                    "$id": "#/properties/lastSession/properties/multiLines",
                     "type": "string",
                     "title": "The Multilines Schema",
                     "description": "An explanation about the purpose of this instance.",
@@ -142,7 +148,6 @@ configSchema = {
                     ]
                 },
                 "frame": {
-                    "$id": "#/properties/lastSession/properties/frame",
                     "type": "string",
                     "title": "The Frame Schema",
                     "description": "An explanation about the purpose of this instance.",
@@ -152,7 +157,6 @@ configSchema = {
                     ]
                 },
                 "centered": {
-                    "$id": "#/properties/lastSession/properties/centered",
                     "type": "string",
                     "title": "The Centered Schema",
                     "description": "An explanation about the purpose of this instance.",
@@ -162,17 +166,15 @@ configSchema = {
                     ]
                 },
                 "copyClipboard": {
-                    "$id": "#/properties/lastSession/properties/copyClipboard",
                     "type": "string",
                     "title": "The Copyclipboard Schema",
                     "description": "An explanation about the purpose of this instance.",
                     "default": "",
                     "examples": [
-                        "no"
+                        "yes"
                     ]
                 },
                 "alwaysOnTop": {
-                    "$id": "#/properties/lastSession/properties/alwaysOnTop",
                     "type": "string",
                     "title": "The Alwaysontop Schema",
                     "description": "An explanation about the purpose of this instance.",
@@ -184,48 +186,59 @@ configSchema = {
             }
         },
         "language": {
-            "$id": "#/properties/language",
             "type": "object",
             "title": "The Language Schema",
             "description": "An explanation about the purpose of this instance.",
             "default": {},
             "examples": [
                 {
-                    "C": {
-                        "singleLineSettings": {
-                            "interruptionSymbol": "*",
-                            "delimiterSymbol": "//"
-                        },
-                        "multiLineSettings": {
-                            "interruptionSymbol": "*",
-                            "delimiterSymbolBegin": "/*",
-                            "delimiterSymbolEnd": "*/"
-                        },
-                        "lineLength": 72.0
-                    },
                     "Python": {
                         "lineLength": 72.0,
                         "singleLineSettings": {
-                            "interruptionSymbol": "*",
-                            "delimiterSymbol": "#"
+                            "delimiterSymbol": "#",
+                            "interruptionSymbol": "*"
                         },
                         "multiLineSettings": {
+                            "frameOffset": 4.0,
+                            "frameOnDelimiter": "no",
+                            "needDelimiter": "no",
                             "interruptionSymbol": "*",
                             "delimiterSymbolBegin": "\"\"\"",
-                            "delimiterSymbolEnd": "\"\"\""
+                            "delimiterSymbolEnd": "\"\"\"",
+                            "framePositionBegin": ""
                         }
                     },
                     "Matlab": {
                         "lineLength": 76.0,
                         "singleLineSettings": {
-                            "interruptionSymbol": "*",
-                            "delimiterSymbol": "%"
+                            "delimiterSymbol": "%",
+                            "interruptionSymbol": "*"
                         },
                         "multiLineSettings": {
+                            "needDelimiter": "yes",
+                            "frameOnDelimiter": "yes",
+                            "interruptionSymbol": "%",
                             "delimiterSymbolBegin": "%",
                             "delimiterSymbolEnd": "%",
-                            "interruptionSymbol": "%"
+                            "framePositionBegin": "",
+                            "frameOffset": 2.0
                         }
+                    },
+                    "C": {
+                        "singleLineSettings": {
+                            "delimiterSymbol": "//",
+                            "interruptionSymbol": "*"
+                        },
+                        "multiLineSettings": {
+                            "needDelimiter": "no",
+                            "frameOnDelimiter": "yes",
+                            "interruptionSymbol": "*",
+                            "delimiterSymbolBegin": "/*",
+                            "delimiterSymbolEnd": "*/",
+                            "framePositionBegin": "",
+                            "frameOffset": 2.0
+                        },
+                        "lineLength": 72.0
                     }
                 }
             ],
@@ -237,7 +250,6 @@ configSchema = {
             ],
             "properties": {
                 "Python": {
-                    "$id": "#/properties/language/properties/Python",
                     "type": "object",
                     "title": "The Python Schema",
                     "description": "An explanation about the purpose of this instance.",
@@ -246,10 +258,14 @@ configSchema = {
                         {
                             "lineLength": 72.0,
                             "singleLineSettings": {
-                                "interruptionSymbol": "*",
-                                "delimiterSymbol": "#"
+                                "delimiterSymbol": "#",
+                                "interruptionSymbol": "*"
                             },
                             "multiLineSettings": {
+                                "framePositionBegin": "",
+                                "frameOffset": 4.0,
+                                "needDelimiter": "no",
+                                "frameOnDelimiter": "no",
                                 "interruptionSymbol": "*",
                                 "delimiterSymbolBegin": "\"\"\"",
                                 "delimiterSymbolEnd": "\"\"\""
@@ -264,7 +280,6 @@ configSchema = {
                     ],
                     "properties": {
                         "lineLength": {
-                            "$id": "#/properties/language/properties/Python/properties/lineLength",
                             "type": "integer",
                             "title": "The Linelength Schema",
                             "description": "An explanation about the purpose of this instance.",
@@ -274,15 +289,14 @@ configSchema = {
                             ]
                         },
                         "singleLineSettings": {
-                            "$id": "#/properties/language/properties/Python/properties/singleLineSettings",
                             "type": "object",
                             "title": "The Singlelinesettings Schema",
                             "description": "An explanation about the purpose of this instance.",
                             "default": {},
                             "examples": [
                                 {
-                                    "interruptionSymbol": "*",
-                                    "delimiterSymbol": "#"
+                                    "delimiterSymbol": "#",
+                                    "interruptionSymbol": "*"
                                 }
                             ],
                             "additionalProperties": True,
@@ -292,7 +306,6 @@ configSchema = {
                             ],
                             "properties": {
                                 "delimiterSymbol": {
-                                    "$id": "#/properties/language/properties/Python/properties/singleLineSettings/properties/delimiterSymbol",
                                     "type": "string",
                                     "title": "The Delimitersymbol Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -302,7 +315,6 @@ configSchema = {
                                     ]
                                 },
                                 "interruptionSymbol": {
-                                    "$id": "#/properties/language/properties/Python/properties/singleLineSettings/properties/interruptionSymbol",
                                     "type": "string",
                                     "title": "The Interruptionsymbol Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -314,27 +326,33 @@ configSchema = {
                             }
                         },
                         "multiLineSettings": {
-                            "$id": "#/properties/language/properties/Python/properties/multiLineSettings",
                             "type": "object",
                             "title": "The Multilinesettings Schema",
                             "description": "An explanation about the purpose of this instance.",
                             "default": {},
                             "examples": [
                                 {
-                                    "interruptionSymbol": "*",
                                     "delimiterSymbolBegin": "\"\"\"",
-                                    "delimiterSymbolEnd": "\"\"\""
+                                    "delimiterSymbolEnd": "\"\"\"",
+                                    "framePositionBegin": "",
+                                    "frameOffset": 4.0,
+                                    "frameOnDelimiter": "no",
+                                    "needDelimiter": "no",
+                                    "interruptionSymbol": "*"
                                 }
                             ],
                             "additionalProperties": True,
                             "required": [
                                 "delimiterSymbolBegin",
                                 "delimiterSymbolEnd",
-                                "interruptionSymbol"
+                                "interruptionSymbol",
+                                "frameOnDelimiter",
+                                "framePositionBegin",
+                                "needDelimiter",
+                                "frameOffset"
                             ],
                             "properties": {
                                 "delimiterSymbolBegin": {
-                                    "$id": "#/properties/language/properties/Python/properties/multiLineSettings/properties/delimiterSymbolBegin",
                                     "type": "string",
                                     "title": "The Delimitersymbolbegin Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -344,7 +362,6 @@ configSchema = {
                                     ]
                                 },
                                 "delimiterSymbolEnd": {
-                                    "$id": "#/properties/language/properties/Python/properties/multiLineSettings/properties/delimiterSymbolEnd",
                                     "type": "string",
                                     "title": "The Delimitersymbolend Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -354,7 +371,6 @@ configSchema = {
                                     ]
                                 },
                                 "interruptionSymbol": {
-                                    "$id": "#/properties/language/properties/Python/properties/multiLineSettings/properties/interruptionSymbol",
                                     "type": "string",
                                     "title": "The Interruptionsymbol Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -362,13 +378,48 @@ configSchema = {
                                     "examples": [
                                         "*"
                                     ]
+                                },
+                                "frameOnDelimiter": {
+                                    "type": "string",
+                                    "title": "The Frameondelimiter Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        "no"
+                                    ]
+                                },
+                                "framePositionBegin": {
+                                    "type": "string",
+                                    "title": "The Framepositionbegin Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        ""
+                                    ]
+                                },
+                                "needDelimiter": {
+                                    "type": "string",
+                                    "title": "The Needdelimiter Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        "no"
+                                    ]
+                                },
+                                "frameOffset": {
+                                    "type": "integer",
+                                    "title": "The Frameoffset Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": 0,
+                                    "examples": [
+                                        4.0
+                                    ]
                                 }
                             }
                         }
                     }
                 },
                 "C": {
-                    "$id": "#/properties/language/properties/C",
                     "type": "object",
                     "title": "The C Schema",
                     "description": "An explanation about the purpose of this instance.",
@@ -377,13 +428,17 @@ configSchema = {
                         {
                             "lineLength": 72.0,
                             "singleLineSettings": {
-                                "interruptionSymbol": "*",
-                                "delimiterSymbol": "//"
+                                "delimiterSymbol": "//",
+                                "interruptionSymbol": "*"
                             },
                             "multiLineSettings": {
+                                "delimiterSymbolEnd": "*/",
+                                "framePositionBegin": "",
+                                "frameOffset": 2.0,
+                                "needDelimiter": "no",
+                                "frameOnDelimiter": "yes",
                                 "interruptionSymbol": "*",
-                                "delimiterSymbolBegin": "/*",
-                                "delimiterSymbolEnd": "*/"
+                                "delimiterSymbolBegin": "/*"
                             }
                         }
                     ],
@@ -395,7 +450,6 @@ configSchema = {
                     ],
                     "properties": {
                         "lineLength": {
-                            "$id": "#/properties/language/properties/C/properties/lineLength",
                             "type": "integer",
                             "title": "The Linelength Schema",
                             "description": "An explanation about the purpose of this instance.",
@@ -405,15 +459,14 @@ configSchema = {
                             ]
                         },
                         "singleLineSettings": {
-                            "$id": "#/properties/language/properties/C/properties/singleLineSettings",
                             "type": "object",
                             "title": "The Singlelinesettings Schema",
                             "description": "An explanation about the purpose of this instance.",
                             "default": {},
                             "examples": [
                                 {
-                                    "interruptionSymbol": "*",
-                                    "delimiterSymbol": "//"
+                                    "delimiterSymbol": "//",
+                                    "interruptionSymbol": "*"
                                 }
                             ],
                             "additionalProperties": True,
@@ -423,7 +476,6 @@ configSchema = {
                             ],
                             "properties": {
                                 "delimiterSymbol": {
-                                    "$id": "#/properties/language/properties/C/properties/singleLineSettings/properties/delimiterSymbol",
                                     "type": "string",
                                     "title": "The Delimitersymbol Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -433,7 +485,6 @@ configSchema = {
                                     ]
                                 },
                                 "interruptionSymbol": {
-                                    "$id": "#/properties/language/properties/C/properties/singleLineSettings/properties/interruptionSymbol",
                                     "type": "string",
                                     "title": "The Interruptionsymbol Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -445,27 +496,33 @@ configSchema = {
                             }
                         },
                         "multiLineSettings": {
-                            "$id": "#/properties/language/properties/C/properties/multiLineSettings",
                             "type": "object",
                             "title": "The Multilinesettings Schema",
                             "description": "An explanation about the purpose of this instance.",
                             "default": {},
                             "examples": [
                                 {
-                                    "delimiterSymbolEnd": "*/",
+                                    "needDelimiter": "no",
+                                    "frameOnDelimiter": "yes",
                                     "interruptionSymbol": "*",
-                                    "delimiterSymbolBegin": "/*"
+                                    "delimiterSymbolBegin": "/*",
+                                    "delimiterSymbolEnd": "*/",
+                                    "framePositionBegin": "",
+                                    "frameOffset": 2.0
                                 }
                             ],
                             "additionalProperties": True,
                             "required": [
                                 "delimiterSymbolBegin",
                                 "delimiterSymbolEnd",
-                                "interruptionSymbol"
+                                "interruptionSymbol",
+                                "frameOnDelimiter",
+                                "framePositionBegin",
+                                "needDelimiter",
+                                "frameOffset"
                             ],
                             "properties": {
                                 "delimiterSymbolBegin": {
-                                    "$id": "#/properties/language/properties/C/properties/multiLineSettings/properties/delimiterSymbolBegin",
                                     "type": "string",
                                     "title": "The Delimitersymbolbegin Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -475,7 +532,6 @@ configSchema = {
                                     ]
                                 },
                                 "delimiterSymbolEnd": {
-                                    "$id": "#/properties/language/properties/C/properties/multiLineSettings/properties/delimiterSymbolEnd",
                                     "type": "string",
                                     "title": "The Delimitersymbolend Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -485,7 +541,6 @@ configSchema = {
                                     ]
                                 },
                                 "interruptionSymbol": {
-                                    "$id": "#/properties/language/properties/C/properties/multiLineSettings/properties/interruptionSymbol",
                                     "type": "string",
                                     "title": "The Interruptionsymbol Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -493,28 +548,67 @@ configSchema = {
                                     "examples": [
                                         "*"
                                     ]
+                                },
+                                "frameOnDelimiter": {
+                                    "type": "string",
+                                    "title": "The Frameondelimiter Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        "yes"
+                                    ]
+                                },
+                                "framePositionBegin": {
+                                    "type": "string",
+                                    "title": "The Framepositionbegin Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        ""
+                                    ]
+                                },
+                                "needDelimiter": {
+                                    "type": "string",
+                                    "title": "The Needdelimiter Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        "no"
+                                    ]
+                                },
+                                "frameOffset": {
+                                    "type": "integer",
+                                    "title": "The Frameoffset Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": 0,
+                                    "examples": [
+                                        2.0
+                                    ]
                                 }
                             }
                         }
                     }
                 },
                 "Matlab": {
-                    "$id": "#/properties/language/properties/Matlab",
                     "type": "object",
                     "title": "The Matlab Schema",
                     "description": "An explanation about the purpose of this instance.",
                     "default": {},
                     "examples": [
                         {
-                            "multiLineSettings": {
-                                "interruptionSymbol": "%",
-                                "delimiterSymbolBegin": "%",
-                                "delimiterSymbolEnd": "%"
-                            },
                             "lineLength": 76.0,
                             "singleLineSettings": {
-                                "interruptionSymbol": "*",
-                                "delimiterSymbol": "%"
+                                "delimiterSymbol": "%",
+                                "interruptionSymbol": "*"
+                            },
+                            "multiLineSettings": {
+                                "frameOffset": 2.0,
+                                "needDelimiter": "yes",
+                                "frameOnDelimiter": "yes",
+                                "interruptionSymbol": "%",
+                                "delimiterSymbolBegin": "%",
+                                "delimiterSymbolEnd": "%",
+                                "framePositionBegin": ""
                             }
                         }
                     ],
@@ -526,7 +620,6 @@ configSchema = {
                     ],
                     "properties": {
                         "lineLength": {
-                            "$id": "#/properties/language/properties/Matlab/properties/lineLength",
                             "type": "integer",
                             "title": "The Linelength Schema",
                             "description": "An explanation about the purpose of this instance.",
@@ -536,15 +629,14 @@ configSchema = {
                             ]
                         },
                         "singleLineSettings": {
-                            "$id": "#/properties/language/properties/Matlab/properties/singleLineSettings",
                             "type": "object",
                             "title": "The Singlelinesettings Schema",
                             "description": "An explanation about the purpose of this instance.",
                             "default": {},
                             "examples": [
                                 {
-                                    "interruptionSymbol": "*",
-                                    "delimiterSymbol": "%"
+                                    "delimiterSymbol": "%",
+                                    "interruptionSymbol": "*"
                                 }
                             ],
                             "additionalProperties": True,
@@ -554,7 +646,6 @@ configSchema = {
                             ],
                             "properties": {
                                 "delimiterSymbol": {
-                                    "$id": "#/properties/language/properties/Matlab/properties/singleLineSettings/properties/delimiterSymbol",
                                     "type": "string",
                                     "title": "The Delimitersymbol Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -564,7 +655,6 @@ configSchema = {
                                     ]
                                 },
                                 "interruptionSymbol": {
-                                    "$id": "#/properties/language/properties/Matlab/properties/singleLineSettings/properties/interruptionSymbol",
                                     "type": "string",
                                     "title": "The Interruptionsymbol Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -576,13 +666,16 @@ configSchema = {
                             }
                         },
                         "multiLineSettings": {
-                            "$id": "#/properties/language/properties/Matlab/properties/multiLineSettings",
                             "type": "object",
                             "title": "The Multilinesettings Schema",
                             "description": "An explanation about the purpose of this instance.",
                             "default": {},
                             "examples": [
                                 {
+                                    "framePositionBegin": "",
+                                    "frameOffset": 2.0,
+                                    "needDelimiter": "yes",
+                                    "frameOnDelimiter": "yes",
                                     "interruptionSymbol": "%",
                                     "delimiterSymbolBegin": "%",
                                     "delimiterSymbolEnd": "%"
@@ -592,11 +685,14 @@ configSchema = {
                             "required": [
                                 "delimiterSymbolBegin",
                                 "delimiterSymbolEnd",
-                                "interruptionSymbol"
+                                "interruptionSymbol",
+                                "frameOnDelimiter",
+                                "framePositionBegin",
+                                "needDelimiter",
+                                "frameOffset"
                             ],
                             "properties": {
                                 "delimiterSymbolBegin": {
-                                    "$id": "#/properties/language/properties/Matlab/properties/multiLineSettings/properties/delimiterSymbolBegin",
                                     "type": "string",
                                     "title": "The Delimitersymbolbegin Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -606,7 +702,6 @@ configSchema = {
                                     ]
                                 },
                                 "delimiterSymbolEnd": {
-                                    "$id": "#/properties/language/properties/Matlab/properties/multiLineSettings/properties/delimiterSymbolEnd",
                                     "type": "string",
                                     "title": "The Delimitersymbolend Schema",
                                     "description": "An explanation about the purpose of this instance.",
@@ -616,13 +711,48 @@ configSchema = {
                                     ]
                                 },
                                 "interruptionSymbol": {
-                                    "$id": "#/properties/language/properties/Matlab/properties/multiLineSettings/properties/interruptionSymbol",
                                     "type": "string",
                                     "title": "The Interruptionsymbol Schema",
                                     "description": "An explanation about the purpose of this instance.",
                                     "default": "",
                                     "examples": [
                                         "%"
+                                    ]
+                                },
+                                "frameOnDelimiter": {
+                                    "type": "string",
+                                    "title": "The Frameondelimiter Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        "yes"
+                                    ]
+                                },
+                                "framePositionBegin": {
+                                    "type": "string",
+                                    "title": "The Framepositionbegin Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        ""
+                                    ]
+                                },
+                                "needDelimiter": {
+                                    "type": "string",
+                                    "title": "The Needdelimiter Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": "",
+                                    "examples": [
+                                        "yes"
+                                    ]
+                                },
+                                "frameOffset": {
+                                    "type": "integer",
+                                    "title": "The Frameoffset Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": 0,
+                                    "examples": [
+                                        2.0
                                     ]
                                 }
                             }

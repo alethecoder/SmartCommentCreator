@@ -2,9 +2,9 @@
     "lastSession": {
         "dialect": "C",
         "upperCase": "yes",
-        "multiLines": "no",
-        "frame": "yes",
-        "centered": "yes",
+        "multiLines": "yes",
+        "frame": "no",
+        "centered": "no",
         "copyClipboard": "yes",
         "alwaysOnTop": "no"
     },
@@ -18,7 +18,11 @@
             "multiLineSettings": {
                 "delimiterSymbolBegin": "\"\"\"",
                 "delimiterSymbolEnd": "\"\"\"",
-                "interruptionSymbol": "*"
+                "interruptionSymbol": "*",
+                "frameOnDelimiter": "no",
+                "framePositionBegin": "",
+                "needDelimiter": "no",
+                "frameOffset": 4
             }
         },
         "C": {
@@ -30,11 +34,15 @@
             "multiLineSettings": {
                 "delimiterSymbolBegin": "/*",
                 "delimiterSymbolEnd": "*/",
-                "interruptionSymbol": "*"
+                "interruptionSymbol": "*",
+                "frameOnDelimiter": "yes",
+                "framePositionBegin": "",
+                "needDelimiter": "no",
+                "frameOffset": 2
             }
         },
         "Matlab": {
-            "lineLength": 76,
+            "lineLength": 72,
             "singleLineSettings": {
                 "delimiterSymbol": "%",
                 "interruptionSymbol": "*"
@@ -42,7 +50,11 @@
             "multiLineSettings": {
                 "delimiterSymbolBegin": "%",
                 "delimiterSymbolEnd": "%",
-                "interruptionSymbol": "%"
+                "interruptionSymbol": "*",
+                "frameOnDelimiter": "yes",
+                "framePositionBegin": "",
+                "needDelimiter": "yes",
+                "frameOffset": 1
             }
         }
     }
